@@ -5,10 +5,10 @@ import json
 import ssl
 
 class SportsAPIConnector:
-    def __init__(self):
+    def __init__(self) -> None:
         self.base_url = "https://www.thesportsdb.com/api/v1/json/3"
 
-    def get_team_info(self, team_name="Arsenal"):
+    def get_team_info(self, team_name: str = "Arsenal") -> dict:
         if team_name.lower() != "arsenal":
             return {"error": f"API Limit: The free tier only provides data for 'Arsenal'. Cannot fetch '{team_name}'."}
             
