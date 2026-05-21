@@ -18,7 +18,7 @@ class TestSportsSystem(unittest.TestCase):
 
     def test_agent_formatting(self):
         report = self.agent.analyze_team("Arsenal")
-        self.assertIn("SPORTS REPORT : Arsenal", report)
+        self.assertIn("SPORTS REPORT : ARSENAL", report)
 
 if __name__ == "__main__":
     unittest.main()
