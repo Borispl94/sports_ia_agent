@@ -1,32 +1,30 @@
 from tools import SportsAPIConnector
 
 class SportsAgent:
-    def __init__(self) -> None:
-        self.api_tool = SportsAPIConnector()
+    def __init__(self):
+        self.connector = SportsAPIConnector()
 
-    def analyze_team(self, team_name: str) -> str:
-        print(f"[*] Agent is analyzing data for '{team_name}'...")
-        raw_data = self.api_tool.get_team_info(team_name)
-
-        if "error" in raw_data:
-            return f"[!] Error: {raw_data['error']}\n"
-
-        name = raw_data.get("strTeam", "Unknown")
-        stadium = raw_data.get("strStadium", "Unknown")
-        league = raw_data.get("strLeague", "Unknown")
-        description = raw_data.get("strDescriptionEN", "No description available.")
+    def run(self, team_name):
+        data = self.connector.get_team_info(team_name)
         
-        if description and len(description) > 200:
-            description = description[:197] + "..."
+        if "error" in data:
+            return f"System Error: {data['error']}"
+
+        name = data.get("strTeam", "Unknown Team")
+        league = data.get("strLeague", "Unknown League")
+        stadium = data.get("strStadium", "Unknown Stadium")
+        desc = data.get("strDescriptionEN") or "No description available."
+
+        if len(desc) > 197:
+            desc = desc[:194] + "..."
 
         report = (
-            f"\n"
-            f"===================================\n"
-            f"       SPORTS REPORT : {name.upper()}\n"
-            f"===================================\n"
-            f" > League  : {league}\n"
-            f" > Stadium : {stadium}\n"
-            f" > Summary : {description}\n"
-            f"===================================\n"
+            f"========================================\n"
+            f"TEAM: {name}\n"
+            f"LEAGUE: {league}\n"
+            f"STADIUM: {stadium}\n"
+            f"----------------------------------------\n"
+            f"HISTORY:\n{desc}\n"
+            f"========================================"
         )
         return report
